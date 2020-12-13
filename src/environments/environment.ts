@@ -37,6 +37,9 @@ export const environment = {
             end: '2020-11-20T10:00:00',
         },
     ],
+    aircraft: {
+        id: 'I-8104'
+    },
     flightlog: [
         {
             date: new Date(2020, 11, 1),
