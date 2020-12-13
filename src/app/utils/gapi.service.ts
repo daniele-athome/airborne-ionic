@@ -35,7 +35,7 @@ export abstract class GoogleApiService {
         // copy params
         let myParams = new HttpParams({encoder: new CustomHttpParamEncoder()});
         if (options && options.params) {
-            for (const param in Object.keys(options.params)) {
+            for (const param in options.params) {
                 myParams = myParams.set(param, options.params[param]);
             }
         }
@@ -46,7 +46,7 @@ export abstract class GoogleApiService {
             Authorization: 'Bearer ' + this.accessToken,
         });
         if (options && options.headers) {
-            for (const header in Object.keys(options.headers)) {
+            for (const header in options.headers) {
                 myHeaders = myHeaders.set(header, options.headers[header]);
             }
         }
