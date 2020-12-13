@@ -20,6 +20,7 @@ bin/
 gen/
 out/
 release/
+environment.gradle
 
 # Gradle files
 .gradle/
