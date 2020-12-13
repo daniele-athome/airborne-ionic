@@ -1,12 +1,12 @@
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { CustomHttpParamEncoder } from "./customhttpencoder";
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { CustomHttpParamEncoder } from './customhttpencoder';
 
 export abstract class GoogleApiService {
 
     private apiKey: string;
     private accessToken: string;
 
-    protected constructor(private _http: HttpClient) {
+    protected constructor(private internalHttp: HttpClient) {
     }
 
     public setApiKey(apiKey: string) {
@@ -35,7 +35,7 @@ export abstract class GoogleApiService {
         // copy params
         let myParams = new HttpParams({encoder: new CustomHttpParamEncoder()});
         if (options && options.params) {
-            for (let param in options.params) {
+            for (const param in Object.keys(options.params)) {
                 myParams = myParams.set(param, options.params[param]);
             }
         }
@@ -43,16 +43,16 @@ export abstract class GoogleApiService {
 
         // copy headers
         let myHeaders = new HttpHeaders({
-            'Authorization': 'Bearer ' + this.accessToken,
+            Authorization: 'Bearer ' + this.accessToken,
         });
         if (options && options.headers) {
-            for (let header in options.headers) {
+            for (const header in Object.keys(options.headers)) {
                 myHeaders = myHeaders.set(header, options.headers[header]);
             }
         }
         myOptions.headers = myHeaders;
 
-        return this._http.request(method, url, myOptions);
+        return this.internalHttp.request(method, url, myOptions);
     }
 
 }

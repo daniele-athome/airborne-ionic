@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { GoogleApiService } from "../utils/gapi.service";
-import { Observable } from "rxjs";
-import { mergeMap } from "rxjs/operators";
+import { HttpClient } from '@angular/common/http';
+import { GoogleApiService } from '../utils/gapi.service';
+import { Observable } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class GoogleSheetsApiService extends GoogleApiService {
 
     private RANGE_URL = (spreadsheetId, range) =>
-        `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}/values/${encodeURIComponent(range)}`;
+        `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}/values/${encodeURIComponent(range)}`
     private APPEND_URL = (spreadsheetId, range) => `${this.RANGE_URL(spreadsheetId, range)}:append`;
     private DELETE_URL = (spreadsheetId) =>
-        `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}:batchUpdate`;
+        `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}:batchUpdate`
     private SHEET_INFO_URL = (spreadsheetId) =>
-        `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}?fields=sheets.properties`;
+        `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}?fields=sheets.properties`
 
     constructor(private http: HttpClient) {
         super(http);
@@ -53,7 +53,7 @@ export class GoogleSheetsApiService extends GoogleApiService {
             .pipe(
                 mergeMap((spreadsheet: gapi.client.sheets.Spreadsheet) => {
                     console.log(spreadsheet);
-                    const sheetInfo = spreadsheet.sheets.find(sheet => sheet.properties.title == sheetName);
+                    const sheetInfo = spreadsheet.sheets.find(sheet => sheet.properties.title === sheetName);
                     if (!sheetInfo) {
                         throw new Error(`sheet ${sheetName} not found`);
                     }

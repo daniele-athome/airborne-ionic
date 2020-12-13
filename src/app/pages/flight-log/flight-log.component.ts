@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
     Config,
     IonInfiniteScroll,
@@ -6,10 +6,10 @@ import {
     IonVirtualScroll,
     ModalController,
     ToastController
-} from "@ionic/angular";
-import { FlightLogService } from "../../services/flightlog.service";
-import { FlightLogItem } from "../../models/flightlog.model";
-import { FlightModalComponent } from "./flight-modal/flight-modal.component";
+} from '@ionic/angular';
+import { FlightLogService } from '../../services/flightlog.service';
+import { FlightLogItem } from '../../models/flightlog.model';
+import { FlightModalComponent } from './flight-modal/flight-modal.component';
 
 @Component({
     selector: 'app-flight-log',
@@ -58,14 +58,14 @@ export class FlightLogComponent implements OnInit {
     }
 
     async record() {
-        const data: FlightLogItem = {};
+        const item: FlightLogItem = {};
         if (this.logItems && this.logItems.length > 0) {
-            data.startHour = this.logItems[0].endHour;
+            item.startHour = this.logItems[0].endHour;
         }
         const modal = await this.modalController.create({
             component: FlightModalComponent,
             componentProps: {
-                flightModel: data,
+                flightModel: item,
             }
         });
         modal.onDidDismiss().then((data) => this.onEditorDismiss(data));
@@ -87,7 +87,7 @@ export class FlightLogComponent implements OnInit {
     private async onEditorDismiss(data) {
         console.log(data);
         this.selectedItem = null;
-        if (data.role && data.role != 'backdrop') {
+        if (data.role && data.role !== 'backdrop') {
             let toastMessage;
             switch (data.role) {
                 case 'deleted':
@@ -211,7 +211,7 @@ export class FlightLogComponent implements OnInit {
 
     /** There is no default spinner in ion-infinite-scroll-content :-( */
     getLoadingSpinner() {
-        return this.config.get('mode') == 'ios' ? 'lines' : 'circular';
+        return this.config.get('mode') === 'ios' ? 'lines' : 'circular';
     }
 
 }

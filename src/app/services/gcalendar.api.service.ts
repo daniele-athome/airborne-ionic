@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { GoogleApiService } from "../utils/gapi.service";
+import { HttpClient } from '@angular/common/http';
+import { GoogleApiService } from '../utils/gapi.service';
 
 @Injectable()
 export class GoogleCalendarApiService extends GoogleApiService {
@@ -15,8 +15,8 @@ export class GoogleCalendarApiService extends GoogleApiService {
     public listEvents(calendarId: string, timeMin?: string, timeMax?: string) {
         return this.request('get', this.COLLECTION_URL(calendarId), {
             params: {
-                'timeMin': timeMin,
-                'timeMax': timeMax,
+                timeMin: timeMin,
+                timeMax: timeMax,
             }
         });
     }
@@ -28,7 +28,7 @@ export class GoogleCalendarApiService extends GoogleApiService {
     }
 
     public updateEvent(calendarId: string, eventId: string, event: gapi.client.calendar.Event) {
-        return this.request('put', this.ITEM_URL(calendarId, eventId),{
+        return this.request('put', this.ITEM_URL(calendarId, eventId), {
             body: event
         });
     }

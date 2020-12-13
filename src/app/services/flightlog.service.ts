@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { GoogleSheetsApiService } from "./gsheets.api.service";
-import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
-import { GoogleServiceAccountService } from "./google-service-account.service";
-import { Observable, of } from "rxjs";
-import { map, mergeMap } from "rxjs/operators";
-import { FlightLogItem } from "../models/flightlog.model";
-import * as datetime from "../utils/datetime";
+import { GoogleSheetsApiService } from './gsheets.api.service';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { GoogleServiceAccountService } from './google-service-account.service';
+import { Observable, of } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
+import { FlightLogItem } from '../models/flightlog.model';
+import * as datetime from '../utils/datetime';
 
 interface FlightLogSpreadsheet {
-    spreadsheetId: string,
-    sheetName: string,
+    spreadsheetId: string;
+    sheetName: string;
 }
 
 /** Items per page to fetch. */
@@ -18,7 +18,7 @@ const ITEMS_PER_PAGE = 20;
 /** Cell containing the row count. */
 const SHEET_COUNT_RANGE = 'A1';
 /** Data range generator. +2 because the index is 0-based and to skip the header row. */
-const SHEET_DATA_RANGE = (first, last) => `A${first+2}:I${last+2}`;
+const SHEET_DATA_RANGE = (first, last) => `A${first + 2}:I${last + 2}`;
 /** Data range for appending. */
 const SHEET_APPEND_RANGE = 'A:I';
 /** Convert item ID to sheet row number. +1 is for skipping the header row. */
@@ -41,7 +41,7 @@ export class FlightLogService {
         return this.serviceAccountService.init()
             .pipe(
                 mergeMap(() => {
-                    return this.reset()
+                    return this.reset();
                 })
             );
     }
@@ -73,7 +73,9 @@ export class FlightLogService {
     public fetchItems(): Observable<FlightLogItem[]> {
         if (this.isTestData()) {
             // no more data
-            if (!this.lastId) return of([]);
+            if (!this.lastId) {
+                return of([]);
+            }
 
             const lastId = this.lastId - 1;
             this.lastId = Math.max(this.lastId - ITEMS_PER_PAGE, 0);
@@ -81,7 +83,7 @@ export class FlightLogService {
             return of((environment.flightlog as unknown as [])
                 .slice(this.lastId, lastId)
                 .map((value, index) => {
-                    (value as FlightLogItem).id = firstId+index+1;
+                    (value as FlightLogItem).id = firstId + index + 1;
                     return value;
                 })
             );
@@ -96,12 +98,13 @@ export class FlightLogService {
                         this.lastId = Math.max(this.lastId - ITEMS_PER_PAGE, 0);
                         const firstId = this.lastId;
                         console.log(`getting rows from ${firstId} to ${lastId} (range: ${SHEET_DATA_RANGE(firstId, lastId)})`);
-                        return this.sheetsApiService.getRows(datasource.spreadsheetId, datasource.sheetName, SHEET_DATA_RANGE(firstId, lastId))
+                        return this.sheetsApiService.getRows(datasource.spreadsheetId,
+                            datasource.sheetName, SHEET_DATA_RANGE(firstId, lastId))
                             .pipe(
                                 map((value: gapi.client.sheets.ValueRange) => {
                                     return value.values.map((rowData, index) => {
                                         return {
-                                            id: firstId+index+1,
+                                            id: firstId + index + 1,
                                             date: datetime.xlSerialToDate(rowData[1]),
                                             pilot: rowData[2],
                                             startHour: rowData[3],
@@ -119,7 +122,7 @@ export class FlightLogService {
         }
     }
 
-    public appendItem(item: FlightLogItem): Observable<Object> {
+    public appendItem(item: FlightLogItem): Observable<object> {
         return this.serviceAccountService.ensureAuthToken()
             .pipe(
                 mergeMap((authToken) => {
@@ -147,17 +150,17 @@ export class FlightLogService {
             );
     }
 
-    public updateItem(item: FlightLogItem): Observable<Object> {
+    public updateItem(item: FlightLogItem): Observable<object> {
         return this.serviceAccountService.ensureAuthToken()
             .pipe(
                 mergeMap((authToken) => {
-                    console.log(`updating row with range: ${SHEET_DATA_RANGE(item.id-1, item.id-1)}`);
+                    console.log(`updating row with range: ${SHEET_DATA_RANGE(item.id - 1, item.id - 1)}`);
                     const datasource = environment.flightlog as unknown as FlightLogSpreadsheet;
                     this.sheetsApiService.setAuthToken(authToken);
                     return this.sheetsApiService.updateRows(
                         datasource.spreadsheetId,
                         datasource.sheetName,
-                        SHEET_DATA_RANGE(item.id-1, item.id-1),
+                        SHEET_DATA_RANGE(item.id - 1, item.id - 1),
                         [
                             [
                                 datetime.formatDateCustom(new Date(), 'YYYY-MM-DD HH:mm:ss'),
@@ -176,11 +179,11 @@ export class FlightLogService {
             );
     }
 
-    public deleteItem(item: FlightLogItem): Observable<Object> {
+    public deleteItem(item: FlightLogItem): Observable<object> {
         return this.serviceAccountService.ensureAuthToken()
             .pipe(
                 mergeMap((authToken) => {
-                    console.log(`delete row with range: ${SHEET_DATA_RANGE(item.id-1, item.id-1)}`);
+                    console.log(`delete row with range: ${SHEET_DATA_RANGE(item.id - 1, item.id - 1)}`);
                     const datasource = environment.flightlog as unknown as FlightLogSpreadsheet;
                     this.sheetsApiService.setAuthToken(authToken);
                     const rowNumber = ITEM_ID_TO_ROWNUM(item.id);

@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalController, ToastController, ViewDidEnter } from "@ionic/angular";
-import { Plugins } from "@capacitor/core";
+import { ModalController, ToastController, ViewDidEnter } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
 const { SplashScreen } = Plugins;
 
 import { CalendarOptions, FullCalendarComponent, EventMountArg, EventClickArg } from '@fullcalendar/angular';
 import itLocale from '@fullcalendar/core/locales/it';
 
 import { environment } from '../../../environments/environment';
-import { BookModalComponent } from "./book-modal/book-modal.component";
-import { EventApi } from "@fullcalendar/common";
-import { CalendarService } from "../../services/calendar.service";
+import { BookModalComponent } from './book-modal/book-modal.component';
+import { EventApi } from '@fullcalendar/common';
+import { CalendarService } from '../../services/calendar.service';
 declare var $: any;
 
 @Component({
@@ -118,7 +118,7 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
 
     private async onEditorDismiss(data) {
         console.log(data);
-        if (data.role && data.role != 'backdrop') {
+        if (data.role && data.role !== 'backdrop') {
             let toastMessage;
             switch (data.role) {
                 case 'deleted':
@@ -145,7 +145,7 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
 
     private renderEvent(arg: EventMountArg) {
         if (arg.event.extendedProps.description) {
-            if (arg.view.type == 'listWeek') {
+            if (arg.view.type === 'listWeek') {
                 $(arg.el).find('.fc-list-event-title').append('&nbsp;')
                     .append($('<small class="text-muted fc-list-event-description"></small>').text(arg.event.extendedProps.description));
             }

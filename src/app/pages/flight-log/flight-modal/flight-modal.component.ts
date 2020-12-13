@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, LoadingController, ModalController } from "@ionic/angular";
+import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { environment } from '../../../../environments/environment';
-import { ConfigService } from "../../../services/config.service";
-import { FlightLogItem } from "../../../models/flightlog.model";
-import * as datetime from "../../../utils/datetime";
-import { FlightLogService } from "../../../services/flightlog.service";
+import { ConfigService } from '../../../services/config.service';
+import { FlightLogItem } from '../../../models/flightlog.model';
+import * as datetime from '../../../utils/datetime';
+import { FlightLogService } from '../../../services/flightlog.service';
 
 @Component({
     selector: 'app-flight-modal',
@@ -47,7 +47,7 @@ export class FlightModalComponent implements OnInit {
 
     dismiss(role?: string) {
         return this.modalController.dismiss({
-            'dismissed': true
+            dismissed: true
         }, role);
     }
 
@@ -75,7 +75,7 @@ export class FlightModalComponent implements OnInit {
     }
 
     async doDelete() {
-        const loading = await this.startLoading("Un attimo...");
+        const loading = await this.startLoading('Un attimo...');
         this.flightLogService.deleteItem(this.flightModel)
             .subscribe(
                 async () => {
@@ -85,7 +85,7 @@ export class FlightModalComponent implements OnInit {
                 async error => {
                     console.log(error);
                     await loading.dismiss();
-                    await this.errorAlert("Impossibile cancellare il volo.", "Errore!");
+                    await this.errorAlert('Impossibile cancellare il volo.', 'Errore!');
                 }
             );
     }
@@ -95,7 +95,7 @@ export class FlightModalComponent implements OnInit {
             return false;
         }
 
-        const loading = await this.startLoading("Un attimo...");
+        const loading = await this.startLoading('Un attimo...');
         return this.doSave(loading);
     }
 
@@ -109,7 +109,7 @@ export class FlightModalComponent implements OnInit {
                 async error => {
                     console.log(error);
                     await loading.dismiss();
-                    await this.errorAlert("Impossibile modificare il volo.", "Errore!");
+                    await this.errorAlert('Impossibile modificare il volo.', 'Errore!');
                 }
             );
         }
@@ -123,7 +123,7 @@ export class FlightModalComponent implements OnInit {
                 async error => {
                     console.log(error);
                     await loading.dismiss();
-                    await this.errorAlert("Impossibile registrare il volo.", "Errore!");
+                    await this.errorAlert('Impossibile registrare il volo.', 'Errore!');
                 }
             );
         }
@@ -131,22 +131,22 @@ export class FlightModalComponent implements OnInit {
 
     private validate(): boolean {
         if (!this.flightModel.date) {
-            this.errorAlert("Inserisci la data del volo.", "Errore");
+            this.errorAlert('Inserisci la data del volo.', 'Errore');
             return false;
         }
 
         if (!this.flightModel.pilot) {
-            this.errorAlert("Scegli il pilota.", "Errore");
+            this.errorAlert('Scegli il pilota.', 'Errore');
             return false;
         }
 
         if (!this.flightModel.startHour || !this.flightModel.endHour) {
-            this.errorAlert("Inserisci orametro di inizio e di fine.", "Errore");
+            this.errorAlert('Inserisci orametro di inizio e di fine.', 'Errore');
             return false;
         }
 
         if (this.flightModel.startHour > this.flightModel.endHour) {
-            this.errorAlert("Orametro di inizio maggiore di quello di fine!", "Errore");
+            this.errorAlert('Orametro di inizio maggiore di quello di fine!', 'Errore');
             return false;
         }
 

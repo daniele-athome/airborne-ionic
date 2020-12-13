@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { mergeMap } from "rxjs/operators";
-import { Observable, of } from "rxjs";
-import { GoogleServiceAccount } from "../models/google.model";
-import { environment } from "../../environments/environment";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { KJUR } from "jsrsasign";
+import { mergeMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { GoogleServiceAccount } from '../models/google.model';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { KJUR } from 'jsrsasign';
 
 @Injectable({
     providedIn: 'root',
@@ -12,9 +12,9 @@ import { KJUR } from "jsrsasign";
 export class GoogleServiceAccountService {
 
     private SCOPES = [
-        "https://www.googleapis.com/auth/calendar",
-        "https://www.googleapis.com/auth/calendar.events",
-        "https://www.googleapis.com/auth/spreadsheets",
+        'https://www.googleapis.com/auth/calendar',
+        'https://www.googleapis.com/auth/calendar.events',
+        'https://www.googleapis.com/auth/spreadsheets',
     ];
 
     private serviceAccount: GoogleServiceAccount;
@@ -54,27 +54,27 @@ export class GoogleServiceAccountService {
         if (this.authToken) {
             // TODO test this
             const now = new Date().getTime();
-            return ((this.authTokenTimestamp + (parseInt(this.authToken.expires_in) * 1000)) - now) > 10000;
+            return ((this.authTokenTimestamp + (parseInt(this.authToken.expires_in, 10) * 1000)) - now) > 10000;
         }
         return false;
     }
 
     private requestAuthToken(): Observable<string> {
-        const header = JSON.stringify({"alg":"RS256","typ":"JWT"});
+        const header = JSON.stringify({alg: 'RS256', typ: 'JWT'});
         const claim = JSON.stringify({
-            aud: "https://www.googleapis.com/oauth2/v3/token",
+            aud: 'https://www.googleapis.com/oauth2/v3/token',
             scope: this.SCOPES.join(' '),
             iss: this.serviceAccount.client_email,
-            exp: KJUR.jws.IntDate.get("now + 1hour"),
-            iat: KJUR.jws.IntDate.get("now"),
+            exp: KJUR.jws.IntDate.get('now + 1hour'),
+            iat: KJUR.jws.IntDate.get('now'),
         });
         const jws = KJUR.jws.JWS.sign(null, header, claim, this.serviceAccount.private_key);
 
         const params = new HttpParams()
-            .set("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer")
-            .set("assertion", jws);
+            .set('grant_type', 'urn:ietf:params:oauth:grant-type:jwt-bearer')
+            .set('assertion', jws);
 
-        return this.http.post("https://oauth2.googleapis.com/token", params)
+        return this.http.post('https://oauth2.googleapis.com/token', params)
             .pipe(
                 mergeMap((data: gapi.auth.GoogleApiOAuth2TokenObject) => {
                     console.log(data);

@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 
-import { HomeRoutingModule } from "./home-routing.module";
-import { HomeComponent } from "./home.component";
+import { HomeRoutingModule } from './home-routing.module';
+import { HomeComponent } from './home.component';
 
 @NgModule({
     imports: [

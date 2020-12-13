@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, LoadingController, ModalController } from "@ionic/angular";
+import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { environment } from '../../../../environments/environment';
 import { EventApi } from '@fullcalendar/angular';
-import { CalendarService } from "../../../services/calendar.service";
+import { CalendarService } from '../../../services/calendar.service';
 import { CalEvent } from '../../../models/calevent.model';
 import * as SunCalc from 'suncalc';
-import * as datetime from "../../../utils/datetime";
-import { ConfigService } from "../../../services/config.service";
+import * as datetime from '../../../utils/datetime';
+import { ConfigService } from '../../../services/config.service';
 
 @Component({
     selector: 'app-book-modal',
@@ -39,7 +39,7 @@ export class BookModalComponent implements OnInit {
             this.title = 'Modifica';
 
             const timeOptions = {
-                hour: "2-digit", minute: "2-digit", hour12: false, timeZone: this.event.start["timeZone"]
+                hour: '2-digit', minute: '2-digit', hour12: false, timeZone: this.event.start['timeZone']
             };
 
             this.eventModel = {
@@ -97,7 +97,7 @@ export class BookModalComponent implements OnInit {
 
     dismiss(role?: string) {
         return this.modalController.dismiss({
-            'dismissed': true
+            dismissed: true
         }, role);
     }
 
@@ -125,7 +125,7 @@ export class BookModalComponent implements OnInit {
     }
 
     async doDelete() {
-        const loading = await this.startLoading("Un attimo...");
+        const loading = await this.startLoading('Un attimo...');
         this.calendarService.deleteEvent(this.event.id)
             .subscribe(
                 async value => {
@@ -135,7 +135,7 @@ export class BookModalComponent implements OnInit {
                 async error => {
                     console.log(error);
                     await loading.dismiss();
-                    await this.errorAlert("Impossibile cancellare la prenotazione.", "Errore!");
+                    await this.errorAlert('Impossibile cancellare la prenotazione.', 'Errore!');
                 }
             );
     }
@@ -145,14 +145,14 @@ export class BookModalComponent implements OnInit {
             return false;
         }
 
-        const loading = await this.startLoading("Un attimo...");
+        const loading = await this.startLoading('Un attimo...');
 
         this.calendarService.eventConflicts(this.event ? this.event.id : null, this.eventModel)
             .subscribe(
                 (conflicts: boolean) => {
                     if (conflicts) {
                         loading.dismiss();
-                        this.errorAlert("Un'altra prenotazione è già presente per l'orario indicato!", "Errore!");
+                        this.errorAlert('Un\'altra prenotazione è già presente per l\'orario indicato!', 'Errore!');
                     }
                     else {
                         this.doSave(loading);
@@ -161,7 +161,7 @@ export class BookModalComponent implements OnInit {
                 error => {
                     console.log(error);
                     loading.dismiss();
-                    this.errorAlert("Impossibile verificare la prenotazione.", "Errore!");
+                    this.errorAlert('Impossibile verificare la prenotazione.', 'Errore!');
                 });
     }
 
@@ -176,7 +176,7 @@ export class BookModalComponent implements OnInit {
                     async error => {
                         console.log(error);
                         await loading.dismiss();
-                        await this.errorAlert("Impossibile modificare la prenotazione.", "Errore!");
+                        await this.errorAlert('Impossibile modificare la prenotazione.', 'Errore!');
                     }
                 );
         }
@@ -191,7 +191,7 @@ export class BookModalComponent implements OnInit {
                     async error => {
                         console.log(error);
                         await loading.dismiss();
-                        await this.errorAlert("Impossibile creare la prenotazione.", "Errore!");
+                        await this.errorAlert('Impossibile creare la prenotazione.', 'Errore!');
                     }
                 );
         }
@@ -199,20 +199,20 @@ export class BookModalComponent implements OnInit {
 
     private validate(): boolean {
         if (!this.eventModel.title) {
-            this.errorAlert("Scegli il pilota.", "Errore");
+            this.errorAlert('Scegli il pilota.', 'Errore');
             return false;
         }
 
         if (!this.eventModel.startDate || !this.eventModel.startTime ||
             !this.eventModel.endDate || !this.eventModel.endTime) {
-            this.errorAlert("Inserisci data/ora inizio e fine.", "Errore");
+            this.errorAlert('Inserisci data/ora inizio e fine.', 'Errore');
             return false;
         }
 
         const startDate = datetime.joinDateTime(this.eventModel.startDate, this.eventModel.startTime);
         const endDate = datetime.joinDateTime(this.eventModel.endDate, this.eventModel.endTime);
-        if (endDate.isBefore(startDate, "minute") || endDate.isSame(startDate, "minute")) {
-            this.errorAlert("Data/ora inizio successive a data/ora fine!", "Errore");
+        if (endDate.isBefore(startDate, 'minute') || endDate.isSame(startDate, 'minute')) {
+            this.errorAlert('Data/ora inizio successive a data/ora fine!', 'Errore');
             return false;
         }
 

@@ -76,6 +76,8 @@
       true,
       "as-needed"
     ],
+    "object-literal-shorthand": false,
+    "no-string-literal": false,
     "quotemark": [
       true,
       "single"
@@ -141,7 +143,8 @@
     "template-no-negated-async": true,
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
-    "object-literal-sort-keys": false
+    "object-literal-sort-keys": false,
+    "forin": false
   },
   "rulesDirectory": [
     "codelyzer"

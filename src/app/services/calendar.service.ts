@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { map, mergeMap } from "rxjs/operators";
-import { Observable } from "rxjs";
-import { GoogleCalendarApiService } from "./gcalendar.api.service";
+import { map, mergeMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { GoogleCalendarApiService } from './gcalendar.api.service';
 import { CalEvent } from '../models/calevent.model';
-import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
-import * as datetime from "../utils/datetime";
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import * as datetime from '../utils/datetime';
 
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
-import { GoogleServiceAccountService } from "./google-service-account.service";
+import { GoogleServiceAccountService } from './google-service-account.service';
 
 dayjs.extend(utc);
 
@@ -41,7 +41,7 @@ export class CalendarService {
                         .pipe(
                             map((events: gapi.client.calendar.Events) => {
                                 return events.items.filter((value) => {
-                                    return value.id != eventId;
+                                    return value.id !== eventId;
                                 }).length > 0;
                             })
                         );

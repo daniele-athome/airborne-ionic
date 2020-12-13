@@ -1,7 +1,7 @@
-import * as dayjs from "dayjs";
+import * as dayjs from 'dayjs';
 
 export function parseISODate(date: string): dayjs.Dayjs {
-    return dayjs(date)
+    return dayjs(date);
 }
 
 export function formatISODate(date: Date): string {
@@ -13,11 +13,11 @@ export function formatDateCustom(date: Date, format: string): string {
 }
 
 export function formatDateTime(date: Date, time: string): string {
-    return joinDateTime(date, time).format("YYYY-MM-DD[T]HH:mm:ssZ");
+    return joinDateTime(date, time).format('YYYY-MM-DD[T]HH:mm:ssZ');
 }
 
 export function joinDateTime(date: Date, time: string): dayjs.Dayjs {
-    return dayjs(formatDateCustom(date, 'YYYY-MM-DD') + time, "YYYY-MM-DDHH:mm").local();
+    return dayjs(formatDateCustom(date, 'YYYY-MM-DD') + time, 'YYYY-MM-DDHH:mm').local();
 }
 
 /** @see https://stackoverflow.com/a/57184486/1045199 */
