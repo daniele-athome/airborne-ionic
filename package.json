@@ -1,8 +1,9 @@
 {
-  "name": "bookflight",
+  "name": "airborne",
   "version": "1.0.0",
+  "description": "Airborne",
   "author": "Daniele Ricci",
-  "homepage": "https://github.com/daniele-athome/bookflight",
+  "homepage": "https://github.com/daniele-athome/airborne",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -69,6 +70,5 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~3.9.5"
-  },
-  "description": "Bookflight"
+  }
 }

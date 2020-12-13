@@ -1,6 +1,6 @@
 {
-  "appId": "it.casaricci.bookflight",
-  "appName": "Prenotazioni",
+  "appId": "it.casaricci.airborne",
+  "appName": "Airborne",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
