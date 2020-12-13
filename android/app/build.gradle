@@ -3,11 +3,15 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "it.casaricci.airborne"
+        applicationId "it.casaricci.airborne.$idSuffix"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        resValue "string", "application_id", applicationId
+        resValue "string", "idSuffix", rootProject.ext.idSuffix
+        resValue "string", "aircraftId", rootProject.ext.aircraftId
+        resValue "string", "app_name", "Airborne ($aircraftId)"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
