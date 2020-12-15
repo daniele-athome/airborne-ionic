@@ -77,7 +77,7 @@ export class FlightLogComponent implements OnInit {
         const modal = await this.modalController.create({
             component: FlightModalComponent,
             componentProps: {
-                flightModel: item,
+                flightModel: Object.assign({}, item),
             }
         });
         modal.onDidDismiss().then((data) => this.onEditorDismiss(data));
