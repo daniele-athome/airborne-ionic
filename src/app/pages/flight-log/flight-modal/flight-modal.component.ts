@@ -21,6 +21,7 @@ export class FlightModalComponent implements OnInit {
     title: string;
 
     flightModel: FlightLogItem = {};
+    pilotList = environment.pilots.concat(environment.noPilotName);
 
     constructor(private modalController: ModalController,
                 private alertController: AlertController,
@@ -177,10 +178,6 @@ export class FlightModalComponent implements OnInit {
     setFlightDate(date: string) {
         const parsedDate = datetime.parseISODate(date);
         this.flightModel.date = parsedDate.isValid() ? parsedDate.toDate() : null;
-    }
-
-    getPilotList() {
-        return environment.pilots.concat(environment.noPilotName);
     }
 
 }

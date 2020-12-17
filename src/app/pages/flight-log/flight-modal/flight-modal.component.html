@@ -30,7 +30,7 @@
         <ion-item>
             <ion-label position="stacked" color="primary">Pilota</ion-label>
             <ion-select [(ngModel)]="flightModel.pilot" interface="alert" [interfaceOptions]="selectOptions" required="true">
-                <ion-select-option *ngFor="let pilot of getPilotList()">{{ pilot }}</ion-select-option>
+                <ion-select-option *ngFor="let pilot of pilotList">{{ pilot }}</ion-select-option>
             </ion-select>
         </ion-item>
 
