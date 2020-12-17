@@ -22,6 +22,7 @@ export class FlightModalComponent implements OnInit {
 
     flightModel: FlightLogItem = {};
     pilotList = environment.pilots.concat(environment.noPilotName);
+    fuelPrices = environment.fuelPrices;
 
     constructor(private modalController: ModalController,
                 private alertController: AlertController,
@@ -148,6 +149,11 @@ export class FlightModalComponent implements OnInit {
 
         if (this.flightModel.startHour > this.flightModel.endHour) {
             this.errorAlert('Orametro di inizio maggiore di quello di fine!', 'Errore');
+            return false;
+        }
+
+        if (this.flightModel.fuel > 0 && !this.flightModel.fuelPrice) {
+            this.errorAlert('Scegli il tipo di benzina.', 'Errore');
             return false;
         }
 

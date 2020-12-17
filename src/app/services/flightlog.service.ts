@@ -18,9 +18,9 @@ const ITEMS_PER_PAGE = 20;
 /** Cell containing the row count. */
 const SHEET_COUNT_RANGE = 'A1';
 /** Data range generator. +2 because the index is 0-based and to skip the header row. */
-const SHEET_DATA_RANGE = (first, last) => `A${first + 2}:I${last + 2}`;
+const SHEET_DATA_RANGE = (first, last) => `A${first + 2}:J${last + 2}`;
 /** Data range for appending. */
-const SHEET_APPEND_RANGE = 'A:I';
+const SHEET_APPEND_RANGE = 'A:J';
 /** Convert item ID to sheet row number. +1 is for skipping the header row. */
 const ITEM_ID_TO_ROWNUM = (id) => id + 1;
 
@@ -112,7 +112,8 @@ export class FlightLogService {
                                             origin: rowData[5],
                                             destination: rowData[6],
                                             fuel: rowData[7],
-                                            notes: rowData[8],
+                                            fuelPrice: rowData[8],
+                                            notes: rowData[9],
                                         } as FlightLogItem;
                                     });
                                 }),
@@ -142,6 +143,7 @@ export class FlightLogService {
                                 item.origin,
                                 item.destination,
                                 item.fuel,
+                                item.fuel ? item.fuelPrice : null,
                                 item.notes,
                             ]
                         ]
@@ -171,6 +173,7 @@ export class FlightLogService {
                                 item.origin,
                                 item.destination,
                                 item.fuel,
+                                item.fuel ? item.fuelPrice : null,
                                 item.notes,
                             ]
                         ]

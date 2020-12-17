@@ -282,6 +282,16 @@ export const environment = {
         'Victoriano',
     ],
     noPilotName: '(prove tecniche)',
+    fuelPrices: [
+        {
+            label: 'Scamuffa',
+            value: 1.4
+        },
+        {
+            label: 'Certificata',
+            value: 2.2
+        },
+    ],
     location: {
         name: 'Fly Roma',
         // Fly Roma coordinates and height (190 ft)

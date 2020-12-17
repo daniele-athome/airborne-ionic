@@ -57,6 +57,13 @@
         <ion-item>
             <ion-label color="primary">Benzina</ion-label>
             <ion-input [(ngModel)]="flightModel.fuel" placeholder="litri" type="number"></ion-input>
+            <ion-select [(ngModel)]="flightModel.fuelPrice"
+                        placeholder="tipo benzina"
+                        interface="alert"
+                        [interfaceOptions]="selectOptions"
+                        [required]="flightModel.fuel > 0">
+                <ion-select-option *ngFor="let fuel of fuelPrices" [value]="fuel.value">{{ fuel.label }}</ion-select-option>
+            </ion-select>
         </ion-item>
 
         <ion-item>

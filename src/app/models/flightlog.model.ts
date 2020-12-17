@@ -7,5 +7,6 @@ export interface FlightLogItem {
     startHour?: number;
     endHour?: number;
     fuel?: number;
+    fuelPrice?: number;
     notes?: string;
 }
