@@ -180,7 +180,7 @@ export class FlightModalComponent implements OnInit {
     }
 
     getPilotList() {
-        return environment.pilots;
+        return environment.pilots.concat(environment.noPilotName);
     }
 
 }

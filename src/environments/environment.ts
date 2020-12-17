@@ -281,6 +281,7 @@ export const environment = {
         'Simone',
         'Victoriano',
     ],
+    noPilotName: '(prove tecniche)',
     location: {
         name: 'Fly Roma',
         // Fly Roma coordinates and height (190 ft)
