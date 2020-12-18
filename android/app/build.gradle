@@ -8,6 +8,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
+        resConfigs "it"
         resValue "string", "application_id", applicationId
         resValue "string", "idSuffix", rootProject.ext.idSuffix
         resValue "string", "aircraftId", rootProject.ext.aircraftId
