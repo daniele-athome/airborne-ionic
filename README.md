@@ -39,9 +39,14 @@ Remember: 1 app = 1 aircraft.
 
 #### For Android
 
+Please refer to [Ionic documention](https://capacitorjs.com/docs/getting-started/dependencies#android-development)
+for requirements.
+
 ```shell
 $ ionic sync android --prod
 ```
+
+> TODO flavors should be use for this
 
 Then create a file `android/environment.gradle` with:
 
@@ -57,17 +62,18 @@ ext {
 
 #### For iOS
 
+Please refer to [Ionic documention](https://capacitorjs.com/docs/getting-started/dependencies#ios-development)
+for requirements.
+
 ```shell
 $ ionic sync ios --prod
 ```
 
-Then edit the key `CFBundleDisplayName` in `App/App/Info.plist` with your aircraft identifiier:
+You should then create two new build configurations (one for debug and one for release) for your aircraft identifier.
+For those two new configurations:
 
-```xml
-<key>CFBundleDisplayName</key>
-<string>I-8104</string>
-```
+* add a "normalized" aircraft ID to the bundle identifier, e.g. `it.casaricci.airborne.i8104`
+* set a new value to the user-defined variable "APP_DISPLAY_NAME" with your aircraft identifier, e.g. "I-8104"
 
-And you should add a suffix to your app bundle identifier.
-Just take the aircraft ID and remove the dash then convert everything to lower case:
-`it.casaricci.airborne.i8104`
+This way you keep the original "neutral" build configurations untouched
+and create new ones for every airacraft you need to manage.
