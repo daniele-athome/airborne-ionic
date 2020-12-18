@@ -23,7 +23,8 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
+      // won't use statusbar for now - this.statusBar.styleDefault();
+      this.statusBar.overlaysWebView(false);
       // will be hidden later -- this.splashScreen.hide();
       this.titleService.setTitle(this.titleService.getTitle() + ' (' + environment.aircraft.id + ')');
     });
