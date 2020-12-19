@@ -1,6 +1,7 @@
 jobs:
   include:
-    - language: node
+    - stage: ionic
+      language: node
       node_js:
         - '10.23.0'
 
@@ -10,7 +11,8 @@ jobs:
       script:
         - ionic build --prod
 
-    - language: android
+    - stage: android
+      language: android
       jdk: openjdk8
       android:
         components:
