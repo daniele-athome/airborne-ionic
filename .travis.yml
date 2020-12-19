@@ -17,6 +17,9 @@ jobs:
         - ionic build --prod
         - ionic cap sync android --prod
         # TODO one day: - ionic cap sync ios --prod
+      workspaces:
+        create:
+          name: ionic-output
 
     - stage: android
       language: android
@@ -34,6 +37,8 @@ jobs:
           - extra-google-google_play_services
         licenses:
           - 'android-sdk-license-.+'
+      workspaces:
+        use: ionic-output
       before_install:
         - yes | sdkmanager "platforms;android-30"
         - openssl aes-256-cbc -K $encrypted_46bf629a46ce_key -iv $encrypted_46bf629a46ce_iv -in android/dist/i8104/environment.gradle.enc -out android/environment.gradle -d
