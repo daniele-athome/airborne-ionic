@@ -12,7 +12,8 @@ jobs:
         - npm install -g ionic
         - npm ci
       script:
-        - ionic build --prod
+        - ionic cap sync android --prod
+        # TODO one day: - ionic cap sync ios --prod
 
     - stage: android
       language: android
@@ -35,6 +36,8 @@ jobs:
         - openssl aes-256-cbc -K $encrypted_46bf629a46ce_key -iv $encrypted_46bf629a46ce_iv -in android/dist/i8104/environment.gradle.enc -out android/environment.gradle -d
       script:
         - cd android
+        # TEST
+        - ls -lR app/src/main/assets
         - ./gradlew clean build
 #      before_deploy:
 #        - openssl aes-256-cbc -K $encrypted_022658120507_key -iv $encrypted_022658120507_iv -in dist/googleplay-developer-key.json.enc -out dist/googleplay-developer-key.json -d
@@ -44,3 +47,5 @@ jobs:
 #        script: ./gradlew publishInternal
 #        on:
 #          branch: release
+
+    # TODO one day - stage: ios
