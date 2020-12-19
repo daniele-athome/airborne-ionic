@@ -1,7 +1,9 @@
+dist: xenial
+os: linux
 jobs:
   include:
     - stage: ionic
-      language: node
+      language: node_js
       node_js:
         - '10.23.0'
 
