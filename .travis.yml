@@ -20,6 +20,8 @@ jobs:
       workspaces:
         create:
           name: ionic-output
+          paths:
+            - android
 
     - stage: android
       language: android
@@ -40,12 +42,12 @@ jobs:
       workspaces:
         use: ionic-output
       before_install:
+        # TEST
+        - ls -lR android/app/src/main/assets
         - yes | sdkmanager "platforms;android-30"
         - openssl aes-256-cbc -K $encrypted_46bf629a46ce_key -iv $encrypted_46bf629a46ce_iv -in android/dist/i8104/environment.gradle.enc -out android/environment.gradle -d
       script:
         - cd android
-        # TEST
-        - ls -lR app/src/main/assets
         - ./gradlew clean build
 #      before_deploy:
 #        - openssl aes-256-cbc -K $encrypted_022658120507_key -iv $encrypted_022658120507_iv -in dist/googleplay-developer-key.json.enc -out dist/googleplay-developer-key.json -d
