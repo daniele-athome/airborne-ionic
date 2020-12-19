@@ -12,6 +12,7 @@ jobs:
         - npm install -g ionic
         - npm ci
       script:
+        - ionic build --prod
         - ionic cap sync android --prod
         # TODO one day: - ionic cap sync ios --prod
 
