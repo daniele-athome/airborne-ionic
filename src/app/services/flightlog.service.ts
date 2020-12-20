@@ -135,8 +135,8 @@ export class FlightLogService {
                         SHEET_APPEND_RANGE,
                         [
                             [
-                                datetime.formatDateCustom(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-                                datetime.formatISODate(item.date),
+                                datetime.formatDateTimeGoogleItalian(new Date()),
+                                datetime.formatDateGoogleItalian(item.date),
                                 item.pilot,
                                 item.startHour,
                                 item.endHour,
@@ -165,8 +165,8 @@ export class FlightLogService {
                         SHEET_DATA_RANGE(item.id - 1, item.id - 1),
                         [
                             [
-                                datetime.formatDateCustom(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-                                datetime.formatISODate(item.date),
+                                datetime.formatDateTimeGoogleItalian(new Date()),
+                                datetime.formatDateGoogleItalian(item.date),
                                 item.pilot,
                                 item.startHour,
                                 item.endHour,

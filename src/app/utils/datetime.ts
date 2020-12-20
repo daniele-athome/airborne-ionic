@@ -12,6 +12,16 @@ export function formatDateCustom(date: Date, format: string): string {
     return dayjs(date).format(format);
 }
 
+// FIXME not really dynamic
+export function formatDateGoogleItalian(date: Date): string {
+    return dayjs(date).format('DD/MM/YYYY');
+}
+
+// FIXME not really dynamic
+export function formatDateTimeGoogleItalian(date: Date): string {
+    return dayjs(date).format('DD/MM/YYYY HH.mm.ss');
+}
+
 export function formatDateTime(date: Date, time: string): string {
     return joinDateTime(date, time).format('YYYY-MM-DD[T]HH:mm:ssZ');
 }
