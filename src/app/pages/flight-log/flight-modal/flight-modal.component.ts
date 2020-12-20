@@ -182,7 +182,7 @@ export class FlightModalComponent implements OnInit {
     }
 
     setFlightDate(date: string) {
-        const parsedDate = datetime.parseISODate(date);
+        const parsedDate = datetime.parseDateISO(date);
         this.flightModel.date = parsedDate.isValid() ? parsedDate.toDate() : null;
     }
 

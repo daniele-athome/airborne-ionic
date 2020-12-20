@@ -1,11 +1,15 @@
 import * as dayjs from 'dayjs';
 
-export function parseISODate(date: string): dayjs.Dayjs {
+export function parseDateISO(date: string): dayjs.Dayjs {
     return dayjs(date);
 }
 
-export function formatISODate(date: Date): string {
+export function formatDateISO(date: Date): string {
     return formatDateCustom(date, 'YYYY-MM-DD');
+}
+
+export function formatDateTimeISO(date: Date, time: string): string {
+    return joinDateTime(date, time).format('YYYY-MM-DD[T]HH:mm:ssZ');
 }
 
 export function formatDateCustom(date: Date, format: string): string {
@@ -20,10 +24,6 @@ export function formatDateGoogleItalian(date: Date): string {
 // FIXME not really dynamic
 export function formatDateTimeGoogleItalian(date: Date): string {
     return dayjs(date).format('DD/MM/YYYY HH.mm.ss');
-}
-
-export function formatDateTime(date: Date, time: string): string {
-    return joinDateTime(date, time).format('YYYY-MM-DD[T]HH:mm:ssZ');
 }
 
 export function joinDateTime(date: Date, time: string): dayjs.Dayjs {

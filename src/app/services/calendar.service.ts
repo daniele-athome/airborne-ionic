@@ -36,8 +36,8 @@ export class CalendarService {
                 mergeMap((authToken) => {
                     this.calendarApiService.setAuthToken(authToken);
                     return this.calendarApiService.listEvents(environment.events as unknown as string,
-                        datetime.formatDateTime(event.startDate, event.startTime),
-                        datetime.formatDateTime(event.endDate, event.endTime))
+                        datetime.formatDateTimeISO(event.startDate, event.startTime),
+                        datetime.formatDateTimeISO(event.endDate, event.endTime))
                         .pipe(
                             map((events: gapi.client.calendar.Events) => {
                                 return events.items.filter((value) => {
@@ -57,8 +57,12 @@ export class CalendarService {
                     const gevent: gapi.client.calendar.Event = {
                         summary: event.title,
                         description: event.description,
-                        start: {dateTime: datetime.formatDateTime(event.startDate, event.startTime)} as gapi.client.calendar.EventDateTime,
-                        end: {dateTime: datetime.formatDateTime(event.endDate, event.endTime)} as gapi.client.calendar.EventDateTime,
+                        start: {
+                            dateTime: datetime.formatDateTimeISO(event.startDate, event.startTime)
+                        } as gapi.client.calendar.EventDateTime,
+                        end: {
+                            dateTime: datetime.formatDateTimeISO(event.endDate, event.endTime)
+                        } as gapi.client.calendar.EventDateTime,
                     };
                     return this.calendarApiService.insertEvent(environment.events as unknown as string, gevent);
                 })
@@ -73,8 +77,12 @@ export class CalendarService {
                     const gevent: gapi.client.calendar.Event = {
                         summary: event.title,
                         description: event.description,
-                        start: {dateTime: datetime.formatDateTime(event.startDate, event.startTime)} as gapi.client.calendar.EventDateTime,
-                        end: {dateTime: datetime.formatDateTime(event.endDate, event.endTime)} as gapi.client.calendar.EventDateTime,
+                        start: {
+                            dateTime: datetime.formatDateTimeISO(event.startDate, event.startTime)
+                        } as gapi.client.calendar.EventDateTime,
+                        end: {
+                            dateTime: datetime.formatDateTimeISO(event.endDate, event.endTime)
+                        } as gapi.client.calendar.EventDateTime,
                     };
                     return this.calendarApiService.updateEvent(environment.events as unknown as string, eventId, gevent);
                 })

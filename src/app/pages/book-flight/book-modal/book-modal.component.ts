@@ -71,14 +71,14 @@ export class BookModalComponent implements OnInit {
     }
 
     setStartDate(date: string) {
-        const parsedDate = datetime.parseISODate(date);
+        const parsedDate = datetime.parseDateISO(date);
         this.eventModel.startDate = parsedDate.isValid() ? parsedDate.toDate() : null;
         this.setEndDate(date);
         // sun times will be updated by setEndDate
     }
 
     setEndDate(date: string) {
-        const parsedDate = datetime.parseISODate(date);
+        const parsedDate = datetime.parseDateISO(date);
         this.eventModel.endDate = parsedDate.isValid() ? parsedDate.toDate() : null;
         this.updateSunTimes();
     }
