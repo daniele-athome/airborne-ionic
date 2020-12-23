@@ -42,12 +42,10 @@ jobs:
       before_deploy:
         - openssl aes-256-cbc -K $encrypted_2da261b140f9_key -iv $encrypted_2da261b140f9_iv -in dist/i8104/googleplay-developer-key.json.enc -out dist/i8104/googleplay-developer-key.json -d
         - openssl aes-256-cbc -K $encrypted_f31a8877f884_key -iv $encrypted_f31a8877f884_iv -in dist/i8104/androidkey.jks.enc -out dist/i8104/androidkey.jks -d
+        - bundle install
       deploy:
         skip_cleanup: true
         provider: script
-        before_script:
-          - cd android
-          - bundle install
         script: >-
           APP_IDENTIFIER="it.casaricci.airborne.i8104"
           GOOGLE_PLAY_CREDENTIALS="dist/i8104/googleplay-developer-key.json"
