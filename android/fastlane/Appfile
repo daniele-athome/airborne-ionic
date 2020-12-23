@@ -1,0 +1,2 @@
+json_key_file(ENV["GOOGLE_PLAY_CREDENTIALS"])
+package_name(app_identifier ENV["APP_IDENTIFIER"])
