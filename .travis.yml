@@ -31,7 +31,6 @@ jobs:
       install:
         - nvm install 10
         - node --version
-        - bundle install
       before_script:
         - npm install -g @ionic/cli
         - npm ci
@@ -46,6 +45,9 @@ jobs:
       deploy:
         skip_cleanup: true
         provider: script
+        before_script:
+          - cd android
+          - bundle install
         script: >-
           APP_IDENTIFIER="it.casaricci.airborne.i8104"
           GOOGLE_PLAY_CREDENTIALS="dist/i8104/googleplay-developer-key.json"
