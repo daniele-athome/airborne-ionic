@@ -5,7 +5,8 @@ import {
     IonRefresher,
     IonVirtualScroll,
     ModalController,
-    ToastController
+    ToastController,
+    ViewDidEnter
 } from '@ionic/angular';
 import { FlightLogService } from '../../services/flightlog.service';
 import { FlightLogItem } from '../../models/flightlog.model';
@@ -16,7 +17,7 @@ import { FlightModalComponent } from './flight-modal/flight-modal.component';
     templateUrl: 'flight-log.component.html',
     styleUrls: ['flight-log.component.scss'],
 })
-export class FlightLogComponent implements OnInit {
+export class FlightLogComponent implements OnInit, ViewDidEnter {
 
     @ViewChild('virtualScroll')
     virtualScroll: IonVirtualScroll;
@@ -55,6 +56,13 @@ export class FlightLogComponent implements OnInit {
                 this.firstError = true;
             }
         );
+    }
+
+    ionViewDidEnter() {
+        // FIXME brutal workaround to fight race condition
+        if (this.logItems) {
+            this.virtualScroll.checkRange(0);
+        }
     }
 
     async record() {
