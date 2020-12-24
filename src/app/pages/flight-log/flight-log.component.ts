@@ -167,10 +167,13 @@ export class FlightLogComponent implements OnInit {
                     this.virtualScroll.checkRange(this.logItems.length - items.length, items.length);
                 }
 
-                this.firstLoad = false;
-                this.refresher.complete();
-                this.infiniteScroll.complete();
-                this.infiniteScroll.disabled = !this.flightLogService.hasMoreData();
+                // ion-virtual-scroll updates with a 100ms delay
+                setTimeout(() => {
+                    this.firstLoad = false;
+                    this.refresher.complete();
+                    this.infiniteScroll.complete();
+                    this.infiniteScroll.disabled = !this.flightLogService.hasMoreData();
+                }, 100);
             },
             async error => {
                 console.log('error: ' + error);
