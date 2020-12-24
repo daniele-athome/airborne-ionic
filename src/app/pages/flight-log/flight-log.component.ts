@@ -164,7 +164,7 @@ export class FlightLogComponent implements OnInit {
                 }
                 else {
                     this.logItems.push(...items.reverse());
-                    this.virtualScroll.checkEnd();
+                    this.virtualScroll.checkRange(this.logItems.length - items.length, items.length);
                 }
 
                 this.firstLoad = false;
