@@ -31,6 +31,6 @@ platform :android do
            print_command: false)
     upload_to_play_store(
         track: 'internal',
-        metadata_path: "fastlane/i8104")
+        metadata_path: "fastlane/i8104/metadata/android")
   end
 end
