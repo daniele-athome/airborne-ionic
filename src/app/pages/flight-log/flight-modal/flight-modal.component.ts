@@ -24,6 +24,9 @@ export class FlightModalComponent implements OnInit {
     pilotList = environment.pilots.concat(environment.noPilotName);
     fuelPrices = environment.fuelPrices;
 
+    // used for asking confirmation for certain changes
+    private oldFlightModel: FlightLogItem;
+
     constructor(private modalController: ModalController,
                 private alertController: AlertController,
                 private loadingController: LoadingController,
@@ -34,6 +37,7 @@ export class FlightModalComponent implements OnInit {
     async ngOnInit() {
         if (this.flightModel.id) {
             this.title = 'Modifica';
+            this.oldFlightModel = Object.assign({}, this.flightModel);
         }
         else {
             this.title = 'Registra';
@@ -97,11 +101,39 @@ export class FlightModalComponent implements OnInit {
             return false;
         }
 
-        const loading = await this.startLoading('Un attimo...');
-        return this.doSave(loading);
+        if (this.flightModel.id) {
+            if (this.flightModel.pilot !== this.oldFlightModel.pilot) {
+                // changing pilot name!
+                const alert = await this.alertController.create({
+                    header: 'Cambiare pilota?',
+                    message: 'Stai cambiando il pilota di un volo registrato.',
+                    buttons: [
+                        {
+                            text: 'Annulla',
+                            role: 'cancel',
+                            cssClass: 'secondary'
+                        },
+                        {
+                            text: 'OK',
+                            role: 'destructive',
+                            cssClass: 'danger',
+                            handler: async () => {
+                                await this.doSave();
+                            }
+                        }
+                    ]
+                });
+                await alert.present();
+                return;
+            }
+        }
+
+        // no checks
+        return this.doSave();
     }
 
-    private async doSave(loading: HTMLIonLoadingElement) {
+    private async doSave() {
+        const loading = await this.startLoading('Un attimo...');
         if (this.flightModel.id) {
             this.flightLogService.updateItem(this.flightModel).subscribe(
                 async () => {
