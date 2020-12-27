@@ -27,6 +27,8 @@ export class BookModalComponent implements OnInit {
     startDateSuntimes: any;
     endDateSuntimes: any;
 
+    private oldEventModel: CalEvent;
+
     constructor(private modalController: ModalController,
                 private alertController: AlertController,
                 private loadingController: LoadingController,
@@ -50,6 +52,7 @@ export class BookModalComponent implements OnInit {
                 endTime: this.event.end.toLocaleTimeString('it-it', timeOptions),
                 description: this.event.extendedProps.description,
             };
+            this.oldEventModel = Object.assign({}, this.eventModel);
         }
         else {
             this.title = 'Prenota';
@@ -145,8 +148,39 @@ export class BookModalComponent implements OnInit {
             return false;
         }
 
-        const loading = await this.startLoading('Un attimo...');
+        if (this.event) {
+            if (this.eventModel.title !== this.oldEventModel.title) {
+                // changing pilot name!
+                const alert = await this.alertController.create({
+                    header: 'Cambiare pilota?',
+                    message: 'Stai cambiando il pilota di una prenotazione.',
+                    buttons: [
+                        {
+                            text: 'Annulla',
+                            role: 'cancel',
+                            cssClass: 'secondary'
+                        },
+                        {
+                            text: 'OK',
+                            role: 'destructive',
+                            cssClass: 'danger',
+                            handler: async () => {
+                                await this.preSave();
+                            }
+                        }
+                    ]
+                });
+                await alert.present();
+                return;
+            }
+        }
 
+        // no checks
+        return this.preSave();
+    }
+
+    private async preSave() {
+        const loading = await this.startLoading('Un attimo...');
         this.calendarService.eventConflicts(this.event ? this.event.id : null, this.eventModel)
             .subscribe(
                 (conflicts: boolean) => {
