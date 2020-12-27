@@ -71,4 +71,4 @@ jobs:
         - ionic build --prod
         - ionic cap sync ios --prod
         - cd ios
-        - xcodebuild test -project App/App.xcworkspace -scheme App -destination "platform=iOS Simulator,OS=11.3,name=iPhone X" -sdk iphonesimulator14.2 CODE_SIGNING_REQUIRED=NO
+        - xcodebuild build -workspace App/App.xcworkspace -scheme App -destination "platform=iOS Simulator,OS=11.3,name=iPhone X" -sdk iphonesimulator14.2 CODE_SIGNING_REQUIRED=NO
