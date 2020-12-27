@@ -26,6 +26,7 @@ jobs:
         - yes | sdkmanager "platforms;android-30"
         - openssl aes-256-cbc -K $encrypted_8107114604f7_key -iv $encrypted_8107114604f7_iv -in deploy/i8104/environment.prod.ts.enc -out src/environments/environment.prod.ts -d
         - openssl aes-256-cbc -K $encrypted_248d61edfafe_key -iv $encrypted_248d61edfafe_iv -in deploy/i8104/service_account.json.enc -out src/assets/data/service_account.json -d
+        - openssl aes-256-cbc -K $encrypted_f090bb81f71d_key -iv $encrypted_f090bb81f71d_iv -in deploy/i8104/aircraft.jpg.enc -out src/assets/img/aircraft.jpg -d
         - openssl aes-256-cbc -K $encrypted_46bf629a46ce_key -iv $encrypted_46bf629a46ce_iv -in android/dist/i8104/environment.gradle.enc -out android/environment.gradle -d
       install:
         - nvm install 10
