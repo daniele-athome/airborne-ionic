@@ -25,7 +25,6 @@ const routes: Routes = [
                     },
                 ]
             },
-            /* TODO about
             {
                 path: 'about',
                 children: [
@@ -35,7 +34,6 @@ const routes: Routes = [
                     }
                 ]
             },
-             */
             {
                 path: '',
                 redirectTo: 'book-flight',
