@@ -69,3 +69,5 @@ jobs:
       script:
         - ionic build --prod
         - ionic cap sync ios --prod
+        - cd ios
+        - xcodebuild test -project App/App.xcworkspace -scheme App -destination "platform=iOS Simulator,name=iPhone 11" -sdk iphonesimulator11.0 CODE_SIGNING_REQUIRED=NO
