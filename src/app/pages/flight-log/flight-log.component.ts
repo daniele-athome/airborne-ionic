@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
     Config,
     IonInfiniteScroll,
@@ -11,13 +11,14 @@ import {
 import { FlightLogService } from '../../services/flightlog.service';
 import { FlightLogItem } from '../../models/flightlog.model';
 import { FlightModalComponent } from './flight-modal/flight-modal.component';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-flight-log',
     templateUrl: 'flight-log.component.html',
     styleUrls: ['flight-log.component.scss'],
 })
-export class FlightLogComponent implements OnInit, ViewDidEnter {
+export class FlightLogComponent implements OnInit, OnDestroy, ViewDidEnter {
 
     @ViewChild('virtualScroll')
     virtualScroll: IonVirtualScroll;
@@ -32,6 +33,8 @@ export class FlightLogComponent implements OnInit, ViewDidEnter {
     firstError = false;
     scrollError = false;
     refreshing = false;
+    fetchingData: Subscription;
+
     logItems: FlightLogItem[] = [];
     selectedItem?: FlightLogItem;
 
@@ -56,6 +59,12 @@ export class FlightLogComponent implements OnInit, ViewDidEnter {
                 this.firstError = true;
             }
         );
+    }
+
+    ngOnDestroy() {
+        if (this.fetchingData && !this.fetchingData.closed) {
+            this.fetchingData.unsubscribe();
+        }
     }
 
     ionViewDidEnter() {
@@ -121,8 +130,6 @@ export class FlightLogComponent implements OnInit, ViewDidEnter {
         }
     }
 
-    // TODO handle race condition between data loading from infinite scroll and refresher
-
     reload() {
         this.firstLoad = true;
         this.firstError = false;
@@ -163,7 +170,10 @@ export class FlightLogComponent implements OnInit, ViewDidEnter {
 
     loadMoreData() {
         this.scrollError = false;
-        return this.fetchData().subscribe(
+        if (this.fetchingData && !this.fetchingData.closed) {
+            this.fetchingData.unsubscribe();
+        }
+        this.fetchingData = this.fetchData().subscribe(
             (items) => {
                 if (this.refreshing) {
                     this.refreshing = false;
@@ -199,6 +209,7 @@ export class FlightLogComponent implements OnInit, ViewDidEnter {
                     // we need it to be enabled to display the error text -- this.infiniteScroll.disabled = true;
                 }
             });
+        return this.fetchingData;
     }
 
     private async refreshError() {
