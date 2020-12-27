@@ -295,8 +295,8 @@ export const environment = {
     location: {
         name: 'Fly Roma',
         // Fly Roma coordinates and height (190 ft)
-        latitude: 41.88,
-        longitude: 12.71,
+        latitude: 41.8844253,
+        longitude: 12.7143166,
         height: 58
     },
 };
