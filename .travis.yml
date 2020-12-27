@@ -59,7 +59,7 @@ jobs:
       language: objective-c
       xcode_workspace: ios/App/App.xcworkspace
       xcode_scheme: App
-      xcode_destination: platform=iOS Simulator,OS=11.3,name=iPhone X
+      xcode_destination: platform=iOS Simulator,OS=12.0,name=iPhone X
       before_install:
         - nvm install 10
         - node --version
@@ -73,4 +73,4 @@ jobs:
         - ionic build --prod
         - ionic cap sync ios --prod
         - cd ios
-        - xcodebuild build -workspace App/App.xcworkspace -scheme App -destination "platform=iOS Simulator,OS=11.3,name=iPhone X" -sdk iphonesimulator14.2 CODE_SIGNING_REQUIRED=NO
+        - xcodebuild build -workspace App/App.xcworkspace -scheme App -destination "platform=iOS Simulator,OS=12.0,name=iPhone X" -sdk iphonesimulator14.2 CODE_SIGNING_REQUIRED=NO
