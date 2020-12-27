@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
+import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import { HttpClientModule } from '@angular/common/http';
@@ -23,6 +24,7 @@ declare var System;
 FullCalendarModule.registerPlugins([
     dayGridPlugin,
     listPlugin,
+    interactionPlugin,
     timeGridPlugin,
     googleCalendarPlugin,
 ]);

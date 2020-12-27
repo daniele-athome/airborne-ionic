@@ -63,11 +63,11 @@ export class BookModalComponent implements OnInit {
             const tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
 
-            this.eventModel = {
+            this.eventModel = Object.assign({
                 title: pilotName,
                 startDate: tomorrow,
                 endDate: tomorrow,
-            };
+            }, this.eventModel);
         }
 
         this.updateSunTimes();

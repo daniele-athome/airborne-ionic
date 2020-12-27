@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
 import { BookModalComponent } from './book-modal/book-modal.component';
 import { EventApi } from '@fullcalendar/common';
 import { CalendarService } from '../../services/calendar.service';
+import { DateClickArg } from '@fullcalendar/interaction';
 declare var $: any;
 
 @Component({
@@ -31,10 +32,13 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
         slotMaxTime: '22:00:00',
         noEventsText: 'Caricamento...',
         headerToolbar: false,
+        selectable: true,
+        selectOverlap: false,
 
         loading: isLoading => this.setLoading(isLoading),
         eventDidMount: arg => this.renderEvent(arg),
         eventClick: arg => this.onEventClick(arg),
+        dateClick: arg => this.onDateClick(arg),
 
         googleCalendarApiKey: environment.googleApiKey,
         events: environment.events,
@@ -97,9 +101,26 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
         this.calendarComponent.getApi().today();
     }
 
-    async book() {
+    async book(startDate?: Date, skipTime: boolean = false) {
+        const eventModel = {};
+        let startTime;
+        if (startDate) {
+            eventModel['startDate'] = startDate;
+            if (!skipTime) {
+                startTime = startDate.toLocaleTimeString('it-it', {
+                    // TODO timeZone?
+                    hour: '2-digit', minute: '2-digit', hour12: false,
+                });
+                eventModel['startTime'] = startTime;
+            }
+
+            eventModel['endDate'] = startDate;
+        }
         const modal = await this.modalController.create({
-            component: BookModalComponent
+            component: BookModalComponent,
+            componentProps: {
+                eventModel: eventModel
+            }
         });
         modal.onDidDismiss().then((data) => this.onEditorDismiss(data));
         return await modal.present();
@@ -159,6 +180,11 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
     async onEventClick(arg: EventClickArg) {
         arg.jsEvent.preventDefault();
         return await this.edit(arg.event);
+    }
+
+    async onDateClick(arg: DateClickArg) {
+        arg.jsEvent.preventDefault();
+        return await this.book(arg.date, arg.view.type === 'dayGridMonth');
     }
 
 }
