@@ -98,9 +98,10 @@ export class BookModalComponent implements OnInit {
             environment.location.height);
     }
 
-    dismiss(role?: string) {
+    dismiss(role: string, date: Date) {
         return this.modalController.dismiss({
-            dismissed: true
+            dismissed: true,
+            date: date,
         }, role);
     }
 
@@ -133,7 +134,7 @@ export class BookModalComponent implements OnInit {
             .subscribe(
                 async value => {
                     loading.dismiss();
-                    await this.dismiss('deleted');
+                    await this.dismiss('deleted', this.event.start);
                 },
                 async error => {
                     console.log(error);
@@ -205,7 +206,7 @@ export class BookModalComponent implements OnInit {
                 .subscribe(
                     async value => {
                         loading.dismiss();
-                        await this.dismiss('updated');
+                        await this.dismiss('updated', this.eventModel.startDate);
                     },
                     async error => {
                         console.log(error);
@@ -220,7 +221,7 @@ export class BookModalComponent implements OnInit {
                     async value => {
                         await this.configService.setLastPilotName(this.eventModel.title);
                         loading.dismiss();
-                        await this.dismiss('created');
+                        await this.dismiss('created', this.eventModel.startDate);
                     },
                     async error => {
                         console.log(error);

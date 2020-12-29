@@ -73,10 +73,13 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
     }
 
     isToday() {
+        return this.isInDate(new Date());
+    }
+
+    private isInDate(date: Date) {
         const calendar = this.calendarComponent?.getApi();
         if (calendar) {
-            const today = new Date();
-            return today >= calendar.view.currentStart && today < calendar.view.currentEnd;
+            return date >= calendar.view.currentStart && date < calendar.view.currentEnd;
         }
         return false;
     }
@@ -179,7 +182,12 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
                 });
                 toast.present();
             }
-            this.calendarComponent.getApi().refetchEvents();
+            if (!this.isInDate(data.data.date)) {
+                this.calendarComponent.getApi().gotoDate(data.data.date);
+            }
+            else {
+                this.calendarComponent.getApi().refetchEvents();
+            }
         }
     }
 
