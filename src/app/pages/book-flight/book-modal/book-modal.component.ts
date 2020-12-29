@@ -98,7 +98,7 @@ export class BookModalComponent implements OnInit {
             environment.location.height);
     }
 
-    dismiss(role: string, date: Date) {
+    dismiss(role?: string, date?: Date) {
         return this.modalController.dismiss({
             dismissed: true,
             date: date,
