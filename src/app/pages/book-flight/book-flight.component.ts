@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, ToastController, ViewDidEnter } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
-const { SplashScreen } = Plugins;
-
-import { CalendarOptions, FullCalendarComponent, EventMountArg, EventClickArg } from '@fullcalendar/angular';
+import { CalendarOptions, EventClickArg, EventMountArg, FullCalendarComponent } from '@fullcalendar/angular';
 import itLocale from '@fullcalendar/core/locales/it';
 
 import { environment } from '../../../environments/environment';
@@ -11,6 +9,9 @@ import { BookModalComponent } from './book-modal/book-modal.component';
 import { EventApi } from '@fullcalendar/common';
 import { CalendarService } from '../../services/calendar.service';
 import { DateClickArg } from '@fullcalendar/interaction';
+
+const { SplashScreen } = Plugins;
+
 declare var $: any;
 
 @Component({
@@ -103,18 +104,22 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
 
     async book(startDate?: Date, skipTime: boolean = false) {
         const eventModel = {};
-        let startTime;
         if (startDate) {
             eventModel['startDate'] = startDate;
             if (!skipTime) {
-                startTime = startDate.toLocaleTimeString('it-it', {
+                eventModel['startTime'] = startDate.toLocaleTimeString('it-it', {
                     // TODO timeZone?
                     hour: '2-digit', minute: '2-digit', hour12: false,
                 });
-                eventModel['startTime'] = startTime;
             }
-
             eventModel['endDate'] = startDate;
+        }
+        else {
+            const ctxStartDate = this.getContextualDate();
+            if (ctxStartDate) {
+                eventModel['startDate'] = ctxStartDate;
+                eventModel['endDate'] = ctxStartDate;
+            }
         }
         const modal = await this.modalController.create({
             component: BookModalComponent,
@@ -124,6 +129,20 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
         });
         modal.onDidDismiss().then((data) => this.onEditorDismiss(data));
         return await modal.present();
+    }
+
+    private getContextualDate(): Date {
+        const calendar = this.calendarComponent?.getApi();
+        if (calendar) {
+            const today = new Date();
+            // - future week, use first day of that week
+            // - future day, use that day
+            // - future month, use first day of that month
+            if (calendar.view.currentStart > today) {
+                return calendar.view.currentStart;
+            }
+        }
+        return null;
     }
 
     async edit(event: EventApi) {
