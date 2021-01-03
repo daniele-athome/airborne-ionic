@@ -29,6 +29,9 @@ jobs:
           node-version: 10.x
 
       - name: decrypting files
+        env:
+          ENCRYPTED_FILE_KEY: ${{ secrets.ENCRYPTED_FILE_KEY }}
+          ENCRYPTED_FILE_IV: ${{ secrets.ENCRYPTED_FILE_IV }}
         run: |
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/environment.prod.ts.enc -out src/environments/environment.prod.ts -d
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/service_account.json.enc -out src/assets/data/service_account.json -d
@@ -56,6 +59,9 @@ jobs:
       # TODO setup environment
 
       - name: decrypting files
+        env:
+          ENCRYPTED_FILE_KEY: ${{ secrets.ENCRYPTED_FILE_KEY }}
+          ENCRYPTED_FILE_IV: ${{ secrets.ENCRYPTED_FILE_IV }}
         run: |
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/environment.prod.ts.enc -out src/environments/environment.prod.ts -d
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/service_account.json.enc -out src/assets/data/service_account.json -d
