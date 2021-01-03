@@ -28,7 +28,7 @@ jobs:
           # Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
           node-version: 10.x
 
-      - name: decrypting files
+      - name: Decrypt files
         env:
           ENCRYPTED_FILE_KEY: ${{ secrets.ENCRYPTED_FILE_KEY }}
           ENCRYPTED_FILE_IV: ${{ secrets.ENCRYPTED_FILE_IV }}
@@ -38,27 +38,36 @@ jobs:
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/aircraft.jpg.enc -out src/assets/img/aircraft.jpg -d
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in android/dist/i8104/environment.gradle.enc -out android/environment.gradle -d
 
-      - run: npm install -g @ionic/cli
-      - run: npm ci
-      - run: ionic build --prod
-      - run: ionic cap sync android --prod
-      - run: |
+      - name: Install Ionic CLI
+        run: npm install -g @ionic/cli
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Ionic app
+        run: ionic build --prod
+      - name: Sync Ionic with Android app
+        run: ionic cap sync android --prod
+      - name: Build Android app
+        run: |
           cd android
           ./gradlew clean build
 
   ios:
     runs-on: macos-10.15
     environment: i8104
-    # TODO secret files and envs
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # TODO setup environment
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.4
+        with:
+          # Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
+          node-version: 10.x
 
-      - name: decrypting files
+      - name: Decrypt files
         env:
           ENCRYPTED_FILE_KEY: ${{ secrets.ENCRYPTED_FILE_KEY }}
           ENCRYPTED_FILE_IV: ${{ secrets.ENCRYPTED_FILE_IV }}
@@ -67,4 +76,14 @@ jobs:
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/service_account.json.enc -out src/assets/data/service_account.json -d
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/aircraft.jpg.enc -out src/assets/img/aircraft.jpg -d
 
-      # TODO build something
+      - name: Install Ionic CLI
+        run: npm install -g @ionic/cli
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Ionic app
+        run: ionic build --prod
+      - name: Sync Ionic with Android app
+        run: ionic cap sync android --prod
+      - name: Build iOS app
+        run: 'true'
