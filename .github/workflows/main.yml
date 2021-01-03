@@ -52,6 +52,23 @@ jobs:
           cd android
           ./gradlew clean build
 
+      - name: Prepare for deploy
+        if: github.ref == 'refs/heads/release'
+        env:
+          ENCRYPTED_FILE_KEY: ${{ secrets.ENCRYPTED_FILE_KEY }}
+          ENCRYPTED_FILE_IV: ${{ secrets.ENCRYPTED_FILE_IV }}
+        run: |
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in dist/i8104/googleplay-developer-key.json.enc -out dist/i8104/googleplay-developer-key.json -d
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in dist/i8104/androidkey.jks.enc -out dist/i8104/androidkey.jks -d
+
+      - name: Deploy to Google Play
+        if: github.ref == 'refs/heads/release'
+        env:
+          APP_IDENTIFIER: 'it.casaricci.airborne.i8104'
+          GOOGLE_PLAY_CREDENTIALS: 'dist/i8104/googleplay-developer-key.json'
+        run: |
+          fastlane deploy_i8104
+
   ios:
     runs-on: macos-10.15
     environment: i8104
