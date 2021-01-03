@@ -58,6 +58,7 @@ jobs:
           ENCRYPTED_FILE_KEY: ${{ secrets.ENCRYPTED_FILE_KEY }}
           ENCRYPTED_FILE_IV: ${{ secrets.ENCRYPTED_FILE_IV }}
         run: |
+          cd android
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in dist/i8104/googleplay-developer-key.json.enc -out dist/i8104/googleplay-developer-key.json -d
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in dist/i8104/androidkey.jks.enc -out dist/i8104/androidkey.jks -d
 
@@ -67,6 +68,7 @@ jobs:
           APP_IDENTIFIER: 'it.casaricci.airborne.i8104'
           GOOGLE_PLAY_CREDENTIALS: 'dist/i8104/googleplay-developer-key.json'
         run: |
+          cd android
           fastlane deploy_i8104
 
   ios:
