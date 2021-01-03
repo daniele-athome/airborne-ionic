@@ -1,0 +1,50 @@
+name: CI
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    environment: i8104
+    # TODO secret files and envs
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.4
+        with:
+          # Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
+          node-version: 10.x
+
+      - run: npm install -g @ionic/cli
+      - run: npm ci
+      - run: ionic build --prod
+      - run: ionic cap sync android --prod
+      - run: |
+          cd android
+          ./gradlew clean build
+
+  ios:
+    runs-on: macos-10.15
+    environment: i8104
+    # TODO secret files and envs
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # TODO build something
