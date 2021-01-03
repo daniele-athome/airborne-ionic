@@ -115,7 +115,34 @@ jobs:
 
       - name: Build Ionic app
         run: ionic build --prod
-      - name: Sync Ionic with Android app
-        run: ionic cap sync android --prod
+      - name: Sync Ionic with iOS app
+        run: ionic cap sync ios --prod
       - name: Build iOS app
-        run: 'true'
+        run: xcodebuild build -workspace App/App.xcworkspace -scheme App -destination "platform=iOS Simulator,OS=12.0,name=iPhone X" -sdk iphonesimulator14.2 CODE_SIGNING_REQUIRED=NO
+
+      - name: Prepare for deploy
+        if: github.ref == 'refs/heads/release'
+        env:
+          ENCRYPTED_FILE_KEY: ${{ secrets.ENCRYPTED_FILE_KEY }}
+          ENCRYPTED_FILE_IV: ${{ secrets.ENCRYPTED_FILE_IV }}
+        run: |
+          cd ios
+        # TODO some stuff to do?
+
+      - name: Setup Ruby environment
+        if: github.ref == 'refs/heads/release'
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+
+      - name: Install Fastlane
+        if: github.ref == 'refs/heads/release'
+        run: gem install fastlane -N
+
+      - name: Deploy to TestFlight
+        if: github.ref == 'refs/heads/release'
+        env:
+          APP_IDENTIFIER: 'it.casaricci.airborne.i8104'
+        run: |
+          cd ios
+          fastlane deploy_i8104
