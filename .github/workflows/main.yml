@@ -16,7 +16,6 @@ jobs:
   android:
     runs-on: ubuntu-latest
     environment: i8104
-    # TODO secret files and envs
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -28,6 +27,13 @@ jobs:
         with:
           # Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
           node-version: 10.x
+
+      - name: decrypting files
+        run: |
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/environment.prod.ts.enc -out src/environments/environment.prod.ts -d
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/service_account.json.enc -out src/assets/data/service_account.json -d
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/aircraft.jpg.enc -out src/assets/img/aircraft.jpg -d
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in android/dist/i8104/environment.gradle.enc -out android/environment.gradle -d
 
       - run: npm install -g @ionic/cli
       - run: npm ci
@@ -46,5 +52,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      # TODO setup environment
+
+      - name: decrypting files
+        run: |
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/environment.prod.ts.enc -out src/environments/environment.prod.ts -d
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/service_account.json.enc -out src/assets/data/service_account.json -d
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/aircraft.jpg.enc -out src/assets/img/aircraft.jpg -d
 
       # TODO build something
