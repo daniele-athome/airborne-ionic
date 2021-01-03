@@ -77,6 +77,9 @@ jobs:
         env:
           APP_IDENTIFIER: 'it.casaricci.airborne.i8104'
           GOOGLE_PLAY_CREDENTIALS: 'dist/i8104/googleplay-developer-key.json'
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           cd android
           fastlane deploy_i8104
