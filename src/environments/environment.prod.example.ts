@@ -1,5 +1,6 @@
 export const environment = {
     production: true,
+    admin: false,
     googleApiKey: 'PUT-YOUR-GOOGLE-API-KEY-HERE',
     googleApiServiceAccount: 'PUT-YOUR-SERVICE-ACCOUNT-JSON-ASSET-PATH-HERE',
     events: 'PUT-YOUR-GOOGLE-CALENDAR-ID-HERE',

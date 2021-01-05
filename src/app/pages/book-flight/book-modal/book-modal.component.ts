@@ -106,6 +106,14 @@ export class BookModalComponent implements OnInit {
     }
 
     async delete() {
+        if (!environment.admin) {
+            const pilotName = await this.configService.getLastPilotName();
+            if (pilotName && pilotName !== this.event.title) {
+                this.errorAlert('La prenotazione non è tua, non puoi cancellarla.', 'Errore');
+                return;
+            }
+        }
+
         const alert = await this.alertController.create({
             header: 'Cancellare?',
             message: 'Non cancellare prenotazioni altrui senza il consenso del pilota.',
@@ -150,8 +158,19 @@ export class BookModalComponent implements OnInit {
         }
 
         if (this.event) {
+            // updating
+
+            if (!environment.admin) {
+                const pilotName = await this.configService.getLastPilotName();
+                if (pilotName && pilotName !== this.event.title) {
+                    this.errorAlert('La prenotazione non è tua, non puoi modificarla.', 'Errore');
+                    return false;
+                }
+            }
+
             if (this.eventModel.title !== this.oldEventModel.title) {
                 // changing pilot name!
+
                 const alert = await this.alertController.create({
                     header: 'Cambiare pilota?',
                     message: 'Stai cambiando il pilota di una prenotazione.',
@@ -172,7 +191,18 @@ export class BookModalComponent implements OnInit {
                     ]
                 });
                 await alert.present();
-                return;
+                return true;
+            }
+        }
+        else {
+            // creating
+
+            if (!environment.admin) {
+                const pilotName = await this.configService.getLastPilotName();
+                if (pilotName && pilotName !== this.eventModel.title) {
+                    this.errorAlert('Non puoi prenotare voli per un altro pilota.', 'Errore');
+                    return false;
+                }
             }
         }
 

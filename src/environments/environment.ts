@@ -4,6 +4,7 @@
 
 export const environment = {
     production: false,
+    admin: false,
     googleApiKey: null,
     googleApiServiceAccount: null,
     events: [
