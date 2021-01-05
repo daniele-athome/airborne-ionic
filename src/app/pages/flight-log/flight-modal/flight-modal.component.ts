@@ -58,6 +58,14 @@ export class FlightModalComponent implements OnInit {
     }
 
     async delete() {
+        if (!environment.admin) {
+            const pilotName = await this.configService.getLastPilotName();
+            if (pilotName && pilotName !== this.oldFlightModel.pilot) {
+                this.errorAlert('Il volo non è tuo, non puoi cancellarlo.', 'Errore');
+                return;
+            }
+        }
+
         const alert = await this.alertController.create({
             header: 'Cancellare?',
             message: 'Stai cancellando un volo registrato. Non potrai recuperarlo!',
@@ -102,6 +110,16 @@ export class FlightModalComponent implements OnInit {
         }
 
         if (this.flightModel.id) {
+            // updating
+
+            if (!environment.admin) {
+                const pilotName = await this.configService.getLastPilotName();
+                if (pilotName && pilotName !== this.oldFlightModel.pilot) {
+                    this.errorAlert('Il volo non è tuo, non puoi modificarlo.', 'Errore');
+                    return false;
+                }
+            }
+
             if (this.flightModel.pilot !== this.oldFlightModel.pilot) {
                 // changing pilot name!
                 const alert = await this.alertController.create({
@@ -124,7 +142,18 @@ export class FlightModalComponent implements OnInit {
                     ]
                 });
                 await alert.present();
-                return;
+                return true;
+            }
+        }
+        else {
+            // creating
+
+            if (!environment.admin) {
+                const pilotName = await this.configService.getLastPilotName();
+                if (pilotName && pilotName !== this.flightModel.pilot) {
+                    this.errorAlert('Non puoi registrare voli di un altro pilota.', 'Errore');
+                    return false;
+                }
             }
         }
 
