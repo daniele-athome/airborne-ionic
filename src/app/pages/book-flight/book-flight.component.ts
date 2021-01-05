@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, ModalController, ToastController, ViewDidEnter } from '@ionic/angular';
+import { ModalController, ToastController, ViewDidEnter } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { CalendarOptions, EventClickArg, EventMountArg, FullCalendarComponent } from '@fullcalendar/angular';
 import itLocale from '@fullcalendar/core/locales/it';
@@ -9,7 +9,6 @@ import { BookModalComponent } from './book-modal/book-modal.component';
 import { EventApi } from '@fullcalendar/common';
 import { CalendarService } from '../../services/calendar.service';
 import { DateClickArg } from '@fullcalendar/interaction';
-import { ConfigService } from '../../services/config.service';
 
 const { SplashScreen } = Plugins;
 
@@ -52,8 +51,6 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
     constructor(
         private modalController: ModalController,
         private toastController: ToastController,
-        private alertController: AlertController,
-        private configService: ConfigService,
         private calendarService: CalendarService
     ) {
         const defaultDate = new Date();
@@ -152,13 +149,6 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
     }
 
     async edit(event: EventApi) {
-        if (!environment.admin) {
-            const pilotName = await this.configService.getLastPilotName();
-            if (pilotName && pilotName !== event.title) {
-                return this.errorAlert('La prenotazione non è tua, non puoi modificarla.', 'Errore');
-            }
-        }
-
         const modal = await this.modalController.create({
             component: BookModalComponent,
             componentProps: {
@@ -222,15 +212,6 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
     async onDateClick(arg: DateClickArg) {
         arg.jsEvent.preventDefault();
         return await this.book(arg.date, arg.view.type === 'dayGridMonth');
-    }
-
-    async errorAlert(message: string, title?: string) {
-        const alert = await this.alertController.create({
-            header: title,
-            message: message,
-            buttons: ['OK']
-        });
-        await alert.present();
     }
 
 }
