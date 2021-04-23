@@ -58,7 +58,8 @@ export class FlightModalComponent implements OnInit {
     }
 
     async delete() {
-        if (!environment.admin) {
+        // allow deleting "no pilot" flights to non-admins
+        if (!environment.admin && this.oldFlightModel.pilot !== environment.noPilotName) {
             const pilotName = await this.configService.getLastPilotName();
             if (pilotName && pilotName !== this.oldFlightModel.pilot) {
                 this.errorAlert('Il volo non è tuo, non puoi cancellarlo.', 'Errore');
@@ -112,7 +113,8 @@ export class FlightModalComponent implements OnInit {
         if (this.flightModel.id) {
             // updating
 
-            if (!environment.admin) {
+            // allow editing "no pilot" flights to non-admins
+            if (!environment.admin && this.oldFlightModel.pilot !== environment.noPilotName) {
                 const pilotName = await this.configService.getLastPilotName();
                 if (pilotName && pilotName !== this.oldFlightModel.pilot) {
                     this.errorAlert('Il volo non è tuo, non puoi modificarlo.', 'Errore');
@@ -121,10 +123,24 @@ export class FlightModalComponent implements OnInit {
             }
 
             if (this.flightModel.pilot !== this.oldFlightModel.pilot) {
+                // non-admin can't change pilot of "no pilot" flights
+                if (!environment.admin && this.oldFlightModel.pilot === environment.noPilotName) {
+                    this.errorAlert('Il volo è una prova tecnica, non puoi cambiare pilota.', 'Errore');
+                    return false;
+                }
+
+                let message;
+                if (this.flightModel.pilot === environment.noPilotName) {
+                    message = 'Stai trasformando il volo in una prova tecnica.';
+                }
+                else {
+                    message = 'Stai cambiando il pilota di un volo registrato.';
+                }
+
                 // changing pilot name!
                 const alert = await this.alertController.create({
                     header: 'Cambiare pilota?',
-                    message: 'Stai cambiando il pilota di un volo registrato.',
+                    message: message,
                     buttons: [
                         {
                             text: 'Annulla',
@@ -148,7 +164,8 @@ export class FlightModalComponent implements OnInit {
         else {
             // creating
 
-            if (!environment.admin) {
+            // allow creating "no pilot" flights to non-admins
+            if (!environment.admin && this.flightModel.pilot !== environment.noPilotName) {
                 const pilotName = await this.configService.getLastPilotName();
                 if (pilotName && pilotName !== this.flightModel.pilot) {
                     this.errorAlert('Non puoi registrare voli di un altro pilota.', 'Errore');
@@ -179,7 +196,10 @@ export class FlightModalComponent implements OnInit {
         else {
             this.flightLogService.appendItem(this.flightModel).subscribe(
                 async () => {
-                    await this.configService.setLastPilotName(this.flightModel.pilot);
+                    // do not save the "no pilot" pilot
+                    if (this.flightModel.pilot !== environment.noPilotName) {
+                        await this.configService.setLastPilotName(this.flightModel.pilot);
+                    }
                     loading.dismiss();
                     await this.dismiss('created');
                 },
