@@ -19,6 +19,7 @@ export class BookModalComponent implements OnInit {
         header: false,
         buttons: false,
     };
+    pilotList = environment.pilots;
 
     title: string;
 
@@ -303,10 +304,6 @@ export class BookModalComponent implements OnInit {
             buttons: ['OK']
         });
         await alert.present();
-    }
-
-    getPilotList() {
-        return environment.pilots;
     }
 
 }
