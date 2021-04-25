@@ -1,0 +1,27 @@
+<ion-header translucent="true">
+    <ion-toolbar>
+        <ion-title>Chi sei?</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+    <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-title size="large">Chi sei?</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-list lines="full">
+
+        <ion-item (click)="select(pilot)" *ngFor="let pilot of pilotList">
+            <ion-avatar slot="start">
+                <ion-img src="/assets/img/avatar-{{ pilot | lowercase }}.jpg"></ion-img>
+            </ion-avatar>
+            <ion-label>
+                {{ pilot }}
+            </ion-label>
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>
