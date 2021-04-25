@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { ConfigService } from '../../services/config.service';
-import { AlertController, ViewDidEnter } from '@ionic/angular';
+import { AlertController, IonRouterOutlet, Platform, ViewDidEnter } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 
+const { App } = Plugins;
 const { SplashScreen } = Plugins;
 
 @Component({
@@ -16,11 +17,17 @@ export class PilotSelectComponent implements ViewDidEnter {
 
     pilotList = environment.pilots;
 
-    constructor(private alertController: AlertController,
+    constructor(private platform: Platform,
+                private routerOutlet: IonRouterOutlet,
+                private alertController: AlertController,
                 private configService: ConfigService,
                 private router: Router) {
+        this.platform.backButton.subscribeWithPriority(-1, () => {
+            if (!this.routerOutlet.canGoBack()) {
+                App.exitApp();
+            }
+        });
     }
-
 
     ionViewDidEnter() {
         SplashScreen.hide();
