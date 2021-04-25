@@ -36,6 +36,12 @@ jobs:
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/environment.prod.ts.enc -out src/environments/environment.prod.ts -d
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/service_account.json.enc -out src/assets/data/service_account.json -d
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/aircraft.jpg.enc -out src/assets/img/aircraft.jpg -d
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/avatar-claudia.jpg.enc -out src/assets/img/avatar-claudia.jpg -d
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/avatar-daniele.jpg.enc -out src/assets/img/avatar-daniele.jpg -d
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/avatar-davide.jpg.enc -out src/assets/img/avatar-davide.jpg -d
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/avatar-manuel.jpg.enc -out src/assets/img/avatar-manuel.jpg -d
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/avatar-simone.jpg.enc -out src/assets/img/avatar-simone.jpg -d
+          openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in deploy/i8104/avatar-victoriano.jpg.enc -out src/assets/img/avatar-victoriano.jpg -d
           openssl aes-256-cbc -K $ENCRYPTED_FILE_KEY -iv $ENCRYPTED_FILE_IV -in android/dist/i8104/environment.gradle.enc -out android/environment.gradle -d
 
       - name: Install Ionic CLI
