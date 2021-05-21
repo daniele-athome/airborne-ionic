@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { ConfigService } from '../../services/config.service';
 import { AlertController, IonRouterOutlet, Platform, ViewDidEnter } from '@ionic/angular';
