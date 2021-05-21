@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, ToastController, ViewDidEnter } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
+import { SplashScreen } from '@capacitor/splash-screen';
 import { CalendarOptions, EventClickArg, EventMountArg, FullCalendarComponent } from '@fullcalendar/angular';
 import itLocale from '@fullcalendar/core/locales/it';
 
@@ -9,8 +9,6 @@ import { BookModalComponent } from './book-modal/book-modal.component';
 import { EventApi } from '@fullcalendar/common';
 import { CalendarService } from '../../services/calendar.service';
 import { DateClickArg } from '@fullcalendar/interaction';
-
-const { SplashScreen } = Plugins;
 
 declare var $: any;
 

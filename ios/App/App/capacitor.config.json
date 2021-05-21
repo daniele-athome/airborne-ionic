@@ -1,13 +1,13 @@
 {
-  "appId": "it.casaricci.airborne",
-  "appName": "Airborne",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www",
-  "plugins": {
-    "SplashScreen": {
-      "launchAutoHide": false
-    }
-  },
-  "cordova": {}
+	"appId": "it.casaricci.airborne",
+	"appName": "Airborne",
+	"bundledWebRuntime": false,
+	"npmClient": "npm",
+	"webDir": "www",
+	"plugins": {
+		"SplashScreen": {
+			"launchAutoHide": false
+		}
+	},
+	"cordova": {}
 }
