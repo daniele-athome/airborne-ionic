@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { ConfigService } from '../../services/config.service';
 import { AlertController, IonRouterOutlet, Platform, ViewDidEnter } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Plugins } from '@capacitor/core';
-
-const { App } = Plugins;
-const { SplashScreen } = Plugins;
+import { App } from '@capacitor/app';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 @Component({
     selector: 'app-pilot-select',
