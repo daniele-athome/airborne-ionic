@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
+import { BookFlightModule } from '../book-flight/book-flight.module';
 
 const routes: Routes = [
     {
@@ -12,10 +13,7 @@ const routes: Routes = [
                 children: [
                     {
                         path: '',
-                        loadChildren: () => import('../book-flight/book-flight.module').then(m => m.BookFlightModule),
-                        data: {
-                            preload: true
-                        }
+                        loadChildren: () => BookFlightModule
                     },
                 ]
             },

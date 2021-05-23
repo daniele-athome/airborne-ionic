@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CheckPilotSelect } from './services/check-pilot-select.service';
 import { CustomPreloading } from './utils/preloading';
+import { HomeModule } from './pages/home/home.module';
 
 const routes: Routes = [
     {
@@ -11,7 +12,7 @@ const routes: Routes = [
     },
     {
         path: 'app',
-        loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
+        loadChildren: () => HomeModule,
         // TODO maybe a canLoad here redirecting to pilot-select?
         data: {
             preload: true
