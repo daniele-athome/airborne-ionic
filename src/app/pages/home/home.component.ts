@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { IonRouterOutlet, Platform } from '@ionic/angular';
+import { IonRouterOutlet, Platform, ViewWillEnter } from '@ionic/angular';
 import { App } from '@capacitor/app';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 @Component({
     selector: 'app-home',
     templateUrl: 'home.component.html',
     styleUrls: ['home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements ViewWillEnter {
 
     constructor(
         private platform: Platform,
@@ -19,4 +20,9 @@ export class HomeComponent {
             }
         });
     }
+
+    ionViewWillEnter() {
+        SplashScreen.hide();
+    }
+
 }

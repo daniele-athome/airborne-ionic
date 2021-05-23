@@ -12,7 +12,10 @@ const routes: Routes = [
                 children: [
                     {
                         path: '',
-                        loadChildren: () => import('../book-flight/book-flight.module').then(m => m.BookFlightModule)
+                        loadChildren: () => import('../book-flight/book-flight.module').then(m => m.BookFlightModule),
+                        data: {
+                            preload: true
+                        }
                     },
                 ]
             },
@@ -21,7 +24,10 @@ const routes: Routes = [
                 children: [
                     {
                         path: '',
-                        loadChildren: () => import('../flight-log/flight-log.module').then(m => m.FlightLogModule)
+                        loadChildren: () => import('../flight-log/flight-log.module').then(m => m.FlightLogModule),
+                        data: {
+                            preload: true
+                        }
                     },
                 ]
             },

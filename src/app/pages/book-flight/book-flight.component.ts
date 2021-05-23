@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalController, ToastController, ViewDidEnter } from '@ionic/angular';
-import { SplashScreen } from '@capacitor/splash-screen';
+import { ModalController, ToastController } from '@ionic/angular';
 import { CalendarOptions, EventClickArg, EventMountArg, FullCalendarComponent } from '@fullcalendar/angular';
 import itLocale from '@fullcalendar/core/locales/it';
 
@@ -17,7 +16,7 @@ declare var $: any;
     templateUrl: 'book-flight.component.html',
     styleUrls: ['book-flight.component.scss'],
 })
-export class BookFlightComponent implements OnInit, ViewDidEnter {
+export class BookFlightComponent implements OnInit {
 
     calendarOptions: CalendarOptions = {
         initialView: 'listWeek',
@@ -64,10 +63,6 @@ export class BookFlightComponent implements OnInit, ViewDidEnter {
             // TODO do something here?
             console.log('calendar service init ok');
         });
-    }
-
-    ionViewDidEnter() {
-        SplashScreen.hide();
     }
 
     isToday() {

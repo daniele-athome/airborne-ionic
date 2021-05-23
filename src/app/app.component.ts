@@ -25,7 +25,6 @@ export class AppComponent {
         this.platform.ready().then(() => {
             // assuming light mode
             this.statusBar.styleDefault();
-            // will be hidden later -- this.splashScreen.hide();
             this.titleService.setTitle(this.titleService.getTitle() + ' (' + environment.aircraft.id + ')');
         });
     }

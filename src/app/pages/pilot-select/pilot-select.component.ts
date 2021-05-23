@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { ConfigService } from '../../services/config.service';
-import { AlertController, IonRouterOutlet, Platform, ViewDidEnter } from '@ionic/angular';
+import { AlertController, IonRouterOutlet, Platform, ViewWillEnter } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { App } from '@capacitor/app';
 import { SplashScreen } from '@capacitor/splash-screen';
@@ -11,7 +11,7 @@ import { SplashScreen } from '@capacitor/splash-screen';
     templateUrl: './pilot-select.component.html',
     styleUrls: ['./pilot-select.component.scss'],
 })
-export class PilotSelectComponent implements ViewDidEnter {
+export class PilotSelectComponent implements ViewWillEnter {
 
     pilotList = environment.pilots;
 
@@ -27,7 +27,7 @@ export class PilotSelectComponent implements ViewDidEnter {
         });
     }
 
-    ionViewDidEnter() {
+    ionViewWillEnter() {
         SplashScreen.hide();
     }
 
