@@ -4,7 +4,8 @@ import { Observable, of } from 'rxjs';
 import { GoogleServiceAccount } from '../models/google.model';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { KJUR } from 'jsrsasign';
+import { fromWorker } from 'observable-webworker';
+import { JwsTokenRequest } from '../jws-token.types';
 
 @Injectable({
     providedIn: 'root',
@@ -29,7 +30,6 @@ export class GoogleServiceAccountService {
             return this.http.get(environment.googleApiServiceAccount)
                 .pipe(
                     mergeMap((data: GoogleServiceAccount) => {
-                        console.log(data);
                         this.serviceAccount = data;
                         return this.ensureAuthToken();
                     })
@@ -60,29 +60,32 @@ export class GoogleServiceAccountService {
     }
 
     private requestAuthToken(): Observable<string> {
-        const header = JSON.stringify({alg: 'RS256', typ: 'JWT'});
-        const claim = JSON.stringify({
+        return this.signJwsToken({
             aud: 'https://www.googleapis.com/oauth2/v3/token',
-            scope: this.SCOPES.join(' '),
+            scopes: this.SCOPES,
             iss: this.serviceAccount.client_email,
-            exp: KJUR.jws.IntDate.get('now + 1hour'),
-            iat: KJUR.jws.IntDate.get('now'),
-        });
-        const jws = KJUR.jws.JWS.sign(null, header, claim, this.serviceAccount.private_key);
+            pkey: this.serviceAccount.private_key,
+        }).pipe(
+            mergeMap((jws) => {
+                const params = new HttpParams()
+                    .set('grant_type', 'urn:ietf:params:oauth:grant-type:jwt-bearer')
+                    .set('assertion', jws);
 
-        const params = new HttpParams()
-            .set('grant_type', 'urn:ietf:params:oauth:grant-type:jwt-bearer')
-            .set('assertion', jws);
+                return this.http.post('https://oauth2.googleapis.com/token', params)
+                    .pipe(
+                        mergeMap((data: gapi.auth.GoogleApiOAuth2TokenObject) => {
+                            this.authToken = data;
+                            this.authTokenTimestamp = new Date().getTime();
+                            return of(data.access_token);
+                        }),
+                    );
+            })
+        );
+    }
 
-        return this.http.post('https://oauth2.googleapis.com/token', params)
-            .pipe(
-                mergeMap((data: gapi.auth.GoogleApiOAuth2TokenObject) => {
-                    console.log(data);
-                    this.authToken = data;
-                    this.authTokenTimestamp = new Date().getTime();
-                    return of(data.access_token);
-                }),
-            );
+    private signJwsToken(request: JwsTokenRequest): Observable<string> {
+        const input: Observable<{}> = of(request);
+        return fromWorker<{}, string>(() => new Worker('../jws-token.worker', {type: 'module'}), input);
     }
 
 }
