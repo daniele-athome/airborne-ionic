@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, mergeMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { GoogleCalendarApiService } from './gcalendar.api.service';
 import { CalEvent } from '../models/calevent.model';
 import { environment } from '../../environments/environment';
@@ -25,9 +25,11 @@ export class CalendarService {
                 private calendarApiService: GoogleCalendarApiService) {
     }
 
-    init(): Observable<string> {
+    init(): Observable<void> {
         this.calendarApiService.setApiKey(environment.googleApiKey);
-        return this.serviceAccountService.init();
+        // return this.serviceAccountService.init();
+        // request token only when needed, possibly saving a HTTP request
+        return of(void 0);
     }
 
     public eventConflicts(eventId: string, event: CalEvent): Observable<boolean> {
