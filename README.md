@@ -1,7 +1,8 @@
 Airborne
 ========
 
-> **Currently being ported to Flutter: https://github.com/daniele-athome/airborne**
+> **This app is not maintained any more.**  
+> Complete rewrite in Flutter available at https://github.com/daniele-athome/airborne
 
 Minimal aircraft management app for small groups.
 
